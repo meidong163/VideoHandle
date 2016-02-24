@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  MDVideoTrimViewController.h
 //  VideoHandle
 //
 //  Created by 没懂 on 16/2/24.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface MDVideoTrimViewController : UIViewController
 
 @end
-

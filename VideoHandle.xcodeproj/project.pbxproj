@@ -9,10 +9,17 @@
 /* Begin PBXBuildFile section */
 		56CACAF31C7D82D30091C72B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACAF21C7D82D30091C72B /* main.m */; };
 		56CACAF61C7D82D30091C72B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACAF51C7D82D30091C72B /* AppDelegate.m */; };
-		56CACAF91C7D82D30091C72B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACAF81C7D82D30091C72B /* ViewController.m */; };
+		56CACAF91C7D82D30091C72B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACAF81C7D82D30091C72B /* MainViewController.m */; };
 		56CACAFC1C7D82D30091C72B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56CACAFA1C7D82D30091C72B /* Main.storyboard */; };
 		56CACAFE1C7D82D30091C72B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56CACAFD1C7D82D30091C72B /* Assets.xcassets */; };
 		56CACB011C7D82D30091C72B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56CACAFF1C7D82D30091C72B /* LaunchScreen.storyboard */; };
+		56CACB0D1C7D86EA0091C72B /* AVCaptureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB0A1C7D86EA0091C72B /* AVCaptureView.m */; };
+		56CACB0E1C7D86EA0091C72B /* MDMediaGenerateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB0C1C7D86EA0091C72B /* MDMediaGenerateController.m */; };
+		56CACB1E1C7D8A970091C72B /* ICGRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB181C7D8A970091C72B /* ICGRulerView.m */; };
+		56CACB1F1C7D8A970091C72B /* ICGThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB1A1C7D8A970091C72B /* ICGThumbView.m */; };
+		56CACB201C7D8A970091C72B /* ICGVideoTrimmerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB1D1C7D8A970091C72B /* ICGVideoTrimmerView.m */; };
+		56CACB231C7D8B140091C72B /* MDVideoTrimViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB221C7D8B140091C72B /* MDVideoTrimViewController.m */; };
+		56CACB2A1C7D8D040091C72B /* MDVideoCompositionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB291C7D8D040091C72B /* MDVideoCompositionVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,12 +27,27 @@
 		56CACAF21C7D82D30091C72B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		56CACAF41C7D82D30091C72B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		56CACAF51C7D82D30091C72B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		56CACAF71C7D82D30091C72B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		56CACAF81C7D82D30091C72B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		56CACAF71C7D82D30091C72B /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		56CACAF81C7D82D30091C72B /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		56CACAFB1C7D82D30091C72B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		56CACAFD1C7D82D30091C72B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		56CACB001C7D82D30091C72B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		56CACB021C7D82D30091C72B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56CACB091C7D86EA0091C72B /* AVCaptureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCaptureView.h; sourceTree = "<group>"; };
+		56CACB0A1C7D86EA0091C72B /* AVCaptureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCaptureView.m; sourceTree = "<group>"; };
+		56CACB0B1C7D86EA0091C72B /* MDMediaGenerateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDMediaGenerateController.h; sourceTree = "<group>"; };
+		56CACB0C1C7D86EA0091C72B /* MDMediaGenerateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDMediaGenerateController.m; sourceTree = "<group>"; };
+		56CACB171C7D8A970091C72B /* ICGRulerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICGRulerView.h; sourceTree = "<group>"; };
+		56CACB181C7D8A970091C72B /* ICGRulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICGRulerView.m; sourceTree = "<group>"; };
+		56CACB191C7D8A970091C72B /* ICGThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICGThumbView.h; sourceTree = "<group>"; };
+		56CACB1A1C7D8A970091C72B /* ICGThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICGThumbView.m; sourceTree = "<group>"; };
+		56CACB1B1C7D8A970091C72B /* ICGVideoTrimmer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICGVideoTrimmer.h; sourceTree = "<group>"; };
+		56CACB1C1C7D8A970091C72B /* ICGVideoTrimmerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICGVideoTrimmerView.h; sourceTree = "<group>"; };
+		56CACB1D1C7D8A970091C72B /* ICGVideoTrimmerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICGVideoTrimmerView.m; sourceTree = "<group>"; };
+		56CACB211C7D8B140091C72B /* MDVideoTrimViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDVideoTrimViewController.h; sourceTree = "<group>"; };
+		56CACB221C7D8B140091C72B /* MDVideoTrimViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDVideoTrimViewController.m; sourceTree = "<group>"; };
+		56CACB281C7D8D040091C72B /* MDVideoCompositionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDVideoCompositionVC.h; sourceTree = "<group>"; };
+		56CACB291C7D8D040091C72B /* MDVideoCompositionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDVideoCompositionVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,10 +80,13 @@
 		56CACAF01C7D82D30091C72B /* VideoHandle */ = {
 			isa = PBXGroup;
 			children = (
+				56CACB241C7D8C640091C72B /* MDMediaCompositionViewController */,
+				56CACB161C7D8A970091C72B /* MediaTrimView */,
+				56CACB081C7D86EA0091C72B /* MDMediaGenerateController */,
 				56CACAF41C7D82D30091C72B /* AppDelegate.h */,
 				56CACAF51C7D82D30091C72B /* AppDelegate.m */,
-				56CACAF71C7D82D30091C72B /* ViewController.h */,
-				56CACAF81C7D82D30091C72B /* ViewController.m */,
+				56CACAF71C7D82D30091C72B /* MainViewController.h */,
+				56CACAF81C7D82D30091C72B /* MainViewController.m */,
 				56CACAFA1C7D82D30091C72B /* Main.storyboard */,
 				56CACAFD1C7D82D30091C72B /* Assets.xcassets */,
 				56CACAFF1C7D82D30091C72B /* LaunchScreen.storyboard */,
@@ -77,6 +102,42 @@
 				56CACAF21C7D82D30091C72B /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		56CACB081C7D86EA0091C72B /* MDMediaGenerateController */ = {
+			isa = PBXGroup;
+			children = (
+				56CACB091C7D86EA0091C72B /* AVCaptureView.h */,
+				56CACB0A1C7D86EA0091C72B /* AVCaptureView.m */,
+				56CACB0B1C7D86EA0091C72B /* MDMediaGenerateController.h */,
+				56CACB0C1C7D86EA0091C72B /* MDMediaGenerateController.m */,
+			);
+			path = MDMediaGenerateController;
+			sourceTree = "<group>";
+		};
+		56CACB161C7D8A970091C72B /* MediaTrimView */ = {
+			isa = PBXGroup;
+			children = (
+				56CACB171C7D8A970091C72B /* ICGRulerView.h */,
+				56CACB181C7D8A970091C72B /* ICGRulerView.m */,
+				56CACB191C7D8A970091C72B /* ICGThumbView.h */,
+				56CACB1A1C7D8A970091C72B /* ICGThumbView.m */,
+				56CACB1B1C7D8A970091C72B /* ICGVideoTrimmer.h */,
+				56CACB1C1C7D8A970091C72B /* ICGVideoTrimmerView.h */,
+				56CACB1D1C7D8A970091C72B /* ICGVideoTrimmerView.m */,
+				56CACB211C7D8B140091C72B /* MDVideoTrimViewController.h */,
+				56CACB221C7D8B140091C72B /* MDVideoTrimViewController.m */,
+			);
+			path = MediaTrimView;
+			sourceTree = "<group>";
+		};
+		56CACB241C7D8C640091C72B /* MDMediaCompositionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				56CACB281C7D8D040091C72B /* MDVideoCompositionVC.h */,
+				56CACB291C7D8D040091C72B /* MDVideoCompositionVC.m */,
+			);
+			path = MDMediaCompositionViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,9 +210,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56CACAF91C7D82D30091C72B /* ViewController.m in Sources */,
+				56CACB0E1C7D86EA0091C72B /* MDMediaGenerateController.m in Sources */,
+				56CACB1F1C7D8A970091C72B /* ICGThumbView.m in Sources */,
+				56CACB0D1C7D86EA0091C72B /* AVCaptureView.m in Sources */,
+				56CACAF91C7D82D30091C72B /* MainViewController.m in Sources */,
+				56CACB2A1C7D8D040091C72B /* MDVideoCompositionVC.m in Sources */,
 				56CACAF61C7D82D30091C72B /* AppDelegate.m in Sources */,
+				56CACB201C7D8A970091C72B /* ICGVideoTrimmerView.m in Sources */,
 				56CACAF31C7D82D30091C72B /* main.m in Sources */,
+				56CACB231C7D8B140091C72B /* MDVideoTrimViewController.m in Sources */,
+				56CACB1E1C7D8A970091C72B /* ICGRulerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,10 +329,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = VideoHandle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = meidong.VideoHandle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -272,10 +343,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = VideoHandle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = meidong.VideoHandle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -298,6 +372,7 @@
 				56CACB071C7D82D30091C72B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
