@@ -10,9 +10,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <MediaPlayer/MediaPlayer.h>
 #import <UIKit/UIKit.h>
-
-@interface MDMergeTwoVideos()
+@interface MDMergeTwoVideos()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, strong)AVAsset *firstAsset;
 @property (nonatomic, strong)AVAsset *secondAsset;
 @end
@@ -75,6 +75,30 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (OpenMPMediaPickerBrowserBlock)openMPMediaPickerBrowserBlock
+{
+    return [^(UIViewController *controller){
+        MPMediaPickerController *mediaPicker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeMusic];
+        mediaPicker.delegate = controller;
+        mediaPicker.prompt = @"视频背景音乐😄";
+        [controller presentViewController:mediaPicker animated:YES completion:nil];
+    }copy];
+}
+
+-(ButtonFactoryMethod)newAButton
+{
+    return [^(UIViewController *controller,NSString *buttontitle,SEL action,CGRect frame)
+            {
+                UIButton *startBtn = [[UIButton alloc]initWithFrame:frame];
+                startBtn.autoresizingMask = UIViewContentModeBottom |UIViewContentModeBottomLeft | UIViewContentModeBottomRight;
+                startBtn.backgroundColor = [UIColor grayColor];
+                [startBtn setTitle:buttontitle forState:UIControlStateNormal];
+                [startBtn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+                [controller.view addSubview:startBtn];
+                return startBtn;
+            } copy];
+}
+
 -(void)exportDidFinish:(AVAssetExportSession*)session {
     // 视频输出流写到本地
     if (session.status == AVAssetExportSessionStatusCompleted) {
