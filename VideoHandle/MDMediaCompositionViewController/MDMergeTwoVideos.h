@@ -16,7 +16,7 @@ typedef UIButton * (^ButtonFactoryMethod)(UIViewController*, NSString *,SEL,CGRe
 @property (nonatomic, copy)OpenBrowserBolck openBrowserBlock;
 @property (nonatomic, copy)OpenMPMediaPickerBrowserBlock openMPMediaPickerBrowserBlock;
 @property (nonatomic, copy)ButtonFactoryMethod newAButton;
-- (void)mergeTwoVideowithAudioAsset:(AVAsset*)audioAsset;
+- (void)mergeTwoVideowithAudioAsset:(AVAsset*)audioAsset firstAsset:(AVAsset*)firstAsset secondAsset:(AVAsset *)secondAsset;
 -(BOOL)startMediaBrowserFromViewController:(UIViewController*)controller usingDelegate:(id)delegate;
 - (AVAsset *)checkWheatherGetAsset:(AVAsset *)firstAsset wihtSecoundAsset:(AVAsset *)secoundAsset isOne:(BOOL)isSelectingAssetOne info:(NSDictionary *)info;
 

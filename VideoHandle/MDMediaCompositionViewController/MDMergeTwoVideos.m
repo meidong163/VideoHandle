@@ -18,22 +18,22 @@
 @end
 
 @implementation MDMergeTwoVideos
-- (void)mergeTwoVideowithAudioAsset:(AVAsset*)audioAsset
+- (void)mergeTwoVideowithAudioAsset:(AVAsset*)audioAsset firstAsset:(AVAsset *)firstAsset secondAsset:(AVAsset *)secondAsset
 {
     AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
     // 2 - Video track=2
     AVMutableCompositionTrack *firstTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
                                                                         preferredTrackID:kCMPersistentTrackID_Invalid];
-    [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, self.firstAsset.duration)
-                        ofTrack:[[self.firstAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:nil];
+    [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, firstAsset.duration)
+                        ofTrack:[[firstAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:nil];
     
-    [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, self.secondAsset.duration)
-                        ofTrack:[[self.secondAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:self.firstAsset.duration error:nil];
+    [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, secondAsset.duration)
+                        ofTrack:[[secondAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:firstAsset.duration error:nil];
     // 3 - Audio track
     if (audioAsset!=nil){
         AVMutableCompositionTrack *AudioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio
                                                                             preferredTrackID:kCMPersistentTrackID_Invalid];
-        [AudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, CMTimeAdd(self.firstAsset.duration, self.secondAsset.duration))
+        [AudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, CMTimeAdd(firstAsset.duration, secondAsset.duration))
                             ofTrack:[[audioAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0] atTime:kCMTimeZero error:nil];
     }
     // 4 - Get path
