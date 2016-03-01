@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56C9B9991C8588E100C3EACF /* MDTrimTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C9B9981C8588E100C3EACF /* MDTrimTool.m */; };
+		56C9B99F1C858AA600C3EACF /* ShowImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C9B99C1C858AA600C3EACF /* ShowImage.m */; };
+		56C9B9A01C858AA600C3EACF /* SliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C9B99E1C858AA600C3EACF /* SliderView.m */; };
 		56CACAF31C7D82D30091C72B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACAF21C7D82D30091C72B /* main.m */; };
 		56CACAF61C7D82D30091C72B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACAF51C7D82D30091C72B /* AppDelegate.m */; };
 		56CACAF91C7D82D30091C72B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACAF81C7D82D30091C72B /* MainViewController.m */; };
@@ -25,6 +28,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		56C9B9971C8588E100C3EACF /* MDTrimTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDTrimTool.h; sourceTree = "<group>"; };
+		56C9B9981C8588E100C3EACF /* MDTrimTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDTrimTool.m; sourceTree = "<group>"; };
+		56C9B99B1C858AA600C3EACF /* ShowImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowImage.h; sourceTree = "<group>"; };
+		56C9B99C1C858AA600C3EACF /* ShowImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowImage.m; sourceTree = "<group>"; };
+		56C9B99D1C858AA600C3EACF /* SliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderView.h; sourceTree = "<group>"; };
+		56C9B99E1C858AA600C3EACF /* SliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderView.m; sourceTree = "<group>"; };
 		56CACAEE1C7D82D30091C72B /* VideoHandle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoHandle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56CACAF21C7D82D30091C72B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		56CACAF41C7D82D30091C72B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -66,6 +75,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		56C9B99A1C858AA600C3EACF /* MDShowView */ = {
+			isa = PBXGroup;
+			children = (
+				56C9B99B1C858AA600C3EACF /* ShowImage.h */,
+				56C9B99C1C858AA600C3EACF /* ShowImage.m */,
+				56C9B99D1C858AA600C3EACF /* SliderView.h */,
+				56C9B99E1C858AA600C3EACF /* SliderView.m */,
+			);
+			path = MDShowView;
+			sourceTree = "<group>";
+		};
 		56CACAE51C7D82D30091C72B = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +143,7 @@
 		56CACB161C7D8A970091C72B /* MediaTrimView */ = {
 			isa = PBXGroup;
 			children = (
+				56C9B99A1C858AA600C3EACF /* MDShowView */,
 				56CACB171C7D8A970091C72B /* ICGRulerView.h */,
 				56CACB181C7D8A970091C72B /* ICGRulerView.m */,
 				56CACB191C7D8A970091C72B /* ICGThumbView.h */,
@@ -132,6 +153,8 @@
 				56CACB1D1C7D8A970091C72B /* ICGVideoTrimmerView.m */,
 				56CACB211C7D8B140091C72B /* MDVideoTrimViewController.h */,
 				56CACB221C7D8B140091C72B /* MDVideoTrimViewController.m */,
+				56C9B9971C8588E100C3EACF /* MDTrimTool.h */,
+				56C9B9981C8588E100C3EACF /* MDTrimTool.m */,
 			);
 			path = MediaTrimView;
 			sourceTree = "<group>";
@@ -223,14 +246,17 @@
 				56CACB0E1C7D86EA0091C72B /* MDMediaGenerateController.m in Sources */,
 				56CACB1F1C7D8A970091C72B /* ICGThumbView.m in Sources */,
 				56CACB0D1C7D86EA0091C72B /* AVCaptureView.m in Sources */,
+				56C9B9A01C858AA600C3EACF /* SliderView.m in Sources */,
 				56CACAF91C7D82D30091C72B /* MainViewController.m in Sources */,
 				56CACB2A1C7D8D040091C72B /* MDVideoCompositionVC.m in Sources */,
 				56CACAF61C7D82D30091C72B /* AppDelegate.m in Sources */,
+				56C9B9991C8588E100C3EACF /* MDTrimTool.m in Sources */,
 				56CACB201C7D8A970091C72B /* ICGVideoTrimmerView.m in Sources */,
 				56CACAF31C7D82D30091C72B /* main.m in Sources */,
 				56CACB231C7D8B140091C72B /* MDVideoTrimViewController.m in Sources */,
 				56CACB1E1C7D8A970091C72B /* ICGRulerView.m in Sources */,
 				56E830DB1C85437A001E22CF /* MDMergeTwoVideos.m in Sources */,
+				56C9B99F1C858AA600C3EACF /* ShowImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

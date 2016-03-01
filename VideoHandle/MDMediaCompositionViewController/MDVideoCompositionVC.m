@@ -35,31 +35,12 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    MDMergeTwoVideos *merge = [[MDMergeTwoVideos alloc]init];
-//    self.merge = merge;
     self.view.backgroundColor = [UIColor whiteColor];
     self.loadAssetOne = self.merge.newAButton(self,@"firstVideo",@selector(loadAssetOne:),CGRectMake(50, 100, 150, 40));
     self.loadAssetSecound = self.merge.newAButton(self,@"SecoundVideo",@selector(loadAssetTwo:),CGRectMake(50, 150, 150, 40));
     self.magreVideo = self.merge.newAButton(self,@"magreVideo",@selector(magreVideo:),CGRectMake(50, 200, 150, 40));
     self.loadAudio = self.merge.newAButton(self,@"Music",@selector(loadAudio:),CGRectMake(50, 250, 150, 40));
-    
-//    self.loadAssetOne = [self setButton:@"firstVideo" sel:@selector(loadAssetOne:) frame:CGRectMake(50, 100, 150, 40)];
-//    self.loadAssetSecound = [self setButton:@"secondVideo" sel:@selector(loadAssetTwo:) frame:CGRectMake(50, 150, 150, 40)];
-//    self.magreVideo = [self setButton:@"magreVideo" sel:@selector(magreVideo:) frame:CGRectMake(50, 200, 150, 40)];
-//    self.loadAudio = [self setButton:@"Music" sel:@selector(loadAudio:) frame:CGRectMake(50, 250, 150, 40)];
 }
-
-//- (UIButton *)setButton:(NSString *)buttontitle sel:(SEL)action frame:(CGRect)frame 
-//{
-////    UIButton *startBtn = [[UIButton alloc]initWithFrame:frame];
-////    startBtn.autoresizingMask = UIViewContentModeBottom |UIViewContentModeBottomLeft | UIViewContentModeBottomRight;
-////    startBtn.backgroundColor = [UIColor grayColor];
-////    [startBtn setTitle:buttontitle forState:UIControlStateNormal];
-////    [startBtn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-////    [self.view addSubview:startBtn];
-////    return startBtn;
-//    return self.merge.newAButton(self,buttontitle,action,frame);
-//}
 
 - (void)magreVideo:(id)sender
 {
@@ -115,6 +96,5 @@
         self.secondAsset = [self.merge checkWheatherGetAsset:self.firstAsset wihtSecoundAsset:self.secondAsset isOne:isSelectingAssetOne info:info];
     }
 }
-
 @end
 
