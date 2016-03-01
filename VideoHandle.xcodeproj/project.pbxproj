@@ -20,6 +20,8 @@
 		56CACB201C7D8A970091C72B /* ICGVideoTrimmerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB1D1C7D8A970091C72B /* ICGVideoTrimmerView.m */; };
 		56CACB231C7D8B140091C72B /* MDVideoTrimViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB221C7D8B140091C72B /* MDVideoTrimViewController.m */; };
 		56CACB2A1C7D8D040091C72B /* MDVideoCompositionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB291C7D8D040091C72B /* MDVideoCompositionVC.m */; };
+		56CACB2C1C7DA1850091C72B /* 单身情歌.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 56CACB2B1C7DA1850091C72B /* 单身情歌.mp3 */; };
+		56E830DB1C85437A001E22CF /* MDMergeTwoVideos.m in Sources */ = {isa = PBXBuildFile; fileRef = 56E830DA1C85437A001E22CF /* MDMergeTwoVideos.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,9 @@
 		56CACB221C7D8B140091C72B /* MDVideoTrimViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDVideoTrimViewController.m; sourceTree = "<group>"; };
 		56CACB281C7D8D040091C72B /* MDVideoCompositionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDVideoCompositionVC.h; sourceTree = "<group>"; };
 		56CACB291C7D8D040091C72B /* MDVideoCompositionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDVideoCompositionVC.m; sourceTree = "<group>"; };
+		56CACB2B1C7DA1850091C72B /* 单身情歌.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "单身情歌.mp3"; sourceTree = "<group>"; };
+		56E830D91C85437A001E22CF /* MDMergeTwoVideos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDMergeTwoVideos.h; sourceTree = "<group>"; };
+		56E830DA1C85437A001E22CF /* MDMergeTwoVideos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDMergeTwoVideos.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +141,9 @@
 			children = (
 				56CACB281C7D8D040091C72B /* MDVideoCompositionVC.h */,
 				56CACB291C7D8D040091C72B /* MDVideoCompositionVC.m */,
+				56E830D91C85437A001E22CF /* MDMergeTwoVideos.h */,
+				56E830DA1C85437A001E22CF /* MDMergeTwoVideos.m */,
+				56CACB2B1C7DA1850091C72B /* 单身情歌.mp3 */,
 			);
 			path = MDMediaCompositionViewController;
 			sourceTree = "<group>";
@@ -200,6 +208,7 @@
 				56CACB011C7D82D30091C72B /* LaunchScreen.storyboard in Resources */,
 				56CACAFE1C7D82D30091C72B /* Assets.xcassets in Resources */,
 				56CACAFC1C7D82D30091C72B /* Main.storyboard in Resources */,
+				56CACB2C1C7DA1850091C72B /* 单身情歌.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +229,7 @@
 				56CACAF31C7D82D30091C72B /* main.m in Sources */,
 				56CACB231C7D8B140091C72B /* MDVideoTrimViewController.m in Sources */,
 				56CACB1E1C7D8A970091C72B /* ICGRulerView.m in Sources */,
+				56E830DB1C85437A001E22CF /* MDMergeTwoVideos.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

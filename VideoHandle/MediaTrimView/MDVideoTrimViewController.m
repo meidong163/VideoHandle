@@ -43,6 +43,10 @@
     self.trimVideoBtn = trimVideoBtn;
     [self.chooseVideoBtn addTarget:self action:@selector(selectAssetFromAulm) forControlEvents:UIControlEventTouchUpInside];
     [self.trimVideoBtn addTarget:self action:@selector(trimVideo) forControlEvents:UIControlEventTouchUpInside];
+    // 截取的View。
+    ICGVideoTrimmerView *trimmerView = [[ICGVideoTrimmerView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 100, self.view.frame.size.width, 100)];
+    [self.view addSubview:trimmerView];
+    self.trimmerView = trimmerView;
 }
 
 - (UIButton *)setButton:(NSString *)buttontitle sel:(SEL)action frame:(CGRect)frame
@@ -80,12 +84,12 @@
     NSLog(@"choose from libriary = %@",info);// 选择本地视频的url,其他的属性。
     NSURL *url = [info valueForKey:UIImagePickerControllerMediaURL];
     self.asset = [AVAsset assetWithURL:url];
-    // 设置视频选择相关的属性。
+    // 设置视频选择相关的属性。设置那个控件要干的事情。
     self.trimmerView.themeColor = [UIColor redColor];
     self.trimmerView.asset = self.asset;
     self.trimmerView.showsRulerView = YES;
     self.trimmerView.delegate = self;
-    
+    //重置视频展示条。
     [self.trimmerView resetSubviews];
 }
 

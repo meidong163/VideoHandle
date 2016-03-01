@@ -50,7 +50,7 @@
     // Drawing code
     
     if (self.thumbImage) {
-        [self.thumbImage drawInRect:rect];
+        [self.thumbImage drawInRect:rect];//如果image存在就是用image，不存在就自己画喽。
     } else {
         //// Frames
         CGRect bubbleFrame = self.bounds;
@@ -69,7 +69,7 @@
         CGRect decoratingRect = CGRectMake(CGRectGetMinX(bubbleFrame)+CGRectGetWidth(bubbleFrame)/2.5, CGRectGetMinY(bubbleFrame)+CGRectGetHeight(bubbleFrame)/4, 1.5, CGRectGetHeight(bubbleFrame)/2);
         UIBezierPath *decoratingPath = [UIBezierPath bezierPathWithRoundedRect:decoratingRect byRoundingCorners: UIRectCornerTopLeft | UIRectCornerBottomLeft | UIRectCornerBottomRight | UIRectCornerTopRight cornerRadii: CGSizeMake(1, 1)];
         [decoratingPath closePath];
-        [[UIColor colorWithWhite:1 alpha:0.5] setFill];
+        [[UIColor colorWithRed:0 green:1 blue:0 alpha:1] setFill];
         [decoratingPath fill];
 
     }

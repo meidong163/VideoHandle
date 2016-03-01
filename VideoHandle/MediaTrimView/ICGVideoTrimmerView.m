@@ -74,21 +74,22 @@
     }
     
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
+    // 能滑动的View
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
     [self addSubview:self.scrollView];
     [self.scrollView setDelegate:self];
     [self.scrollView setShowsHorizontalScrollIndicator:NO];
-    
+    // 显示内容的view 它决定了scorllView能滚动多长。在这个上面能添加看的见的东西
     self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.scrollView.frame))];
     [self.scrollView setContentSize:self.contentView.frame.size];
     [self.scrollView addSubview:self.contentView];
     
     CGFloat ratio = self.showsRulerView ? 0.7 : 1.0;
-    self.frameView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, CGRectGetWidth(self.contentView.frame)-20, CGRectGetHeight(self.contentView.frame)*ratio)];
+    self.frameView = [[UIView alloc] initWithFrame:CGRectMake(10, 0, CGRectGetWidth(self.contentView.frame)-20, CGRectGetHeight(self.contentView.frame)*ratio)];// 根据是否展示尺子，改变高度。
+    
     [self.frameView.layer setMasksToBounds:YES];
     [self.contentView addSubview:self.frameView];
-    
+    // 添加照片。
     [self addFrames];
     
     if (self.showsRulerView) {
@@ -107,7 +108,7 @@
     [self.bottomBorder setBackgroundColor:self.themeColor];
     [self addSubview:self.bottomBorder];
     
-    // width for left and right overlay views
+    // width for left and right overlay views -- 真看不懂
     self.overlayWidth =  (CGRectGetWidth(self.frameView.frame) < CGRectGetWidth(self.frame) ? CGRectGetWidth(self.frameView.frame) : CGRectGetWidth(self.frame)) - (self.minLength * self.widthPerSecond);
     
     // add left overlay view
@@ -168,6 +169,7 @@
             CGPoint center = self.leftOverlayView.center;
             
             CGFloat newLeftViewMidX = center.x += deltaX;;
+            
             CGFloat maxWidth = CGRectGetMinX(self.rightOverlayView.frame) - (self.minLength * self.widthPerSecond);
             CGFloat newLeftViewMinX = newLeftViewMidX - self.overlayWidth/2;
             if (newLeftViewMinX < 10 - self.overlayWidth) {
@@ -253,15 +255,15 @@
     // First image
     NSError *error;
     CMTime actualTime;//这个时间是怎么取的？
-    CGImageRef halfWayImage = [self.imageGenerator copyCGImageAtTime:kCMTimeZero actualTime:&actualTime error:&error];
+    CGImageRef halfWayImage = [self.imageGenerator copyCGImageAtTime:kCMTimeZero actualTime:&actualTime error:&error];// 根据时间生成照片。
     UIImage *videoScreen;
-    if ([self isRetina]){
+    if ([self isRetina]){// 屏幕的处理
         videoScreen = [[UIImage alloc] initWithCGImage:halfWayImage scale:2.0 orientation:UIImageOrientationUp];
     } else {
         videoScreen = [[UIImage alloc] initWithCGImage:halfWayImage];
     }
     //处理下图片。
-    if (halfWayImage != NULL) {
+    if (halfWayImage != NULL) {//初始化好ImageView用于放图片。
         UIImageView *tmp = [[UIImageView alloc] initWithImage:videoScreen];
         CGRect rect = tmp.frame;
         rect.size.width = videoScreen.size.width;
@@ -277,8 +279,10 @@
     
     CGFloat frameViewFrameWidth = (duration / self.maxLength) * screenWidth;
     [self.frameView setFrame:CGRectMake(10, 0, frameViewFrameWidth, CGRectGetHeight(self.frameView.frame))];
+    
     CGFloat contentViewFrameWidth = CMTimeGetSeconds([self.asset duration]) <= self.maxLength + 0.5 ? screenWidth + 30 : frameViewFrameWidth;
     [self.contentView setFrame:CGRectMake(0, 0, contentViewFrameWidth, CGRectGetHeight(self.contentView.frame))];
+    
     [self.scrollView setContentSize:self.contentView.frame.size];
     NSInteger minFramesNeeded = screenWidth / picWidth + 1;
     actualFramesNeeded =  (duration / self.maxLength) * minFramesNeeded;
@@ -287,7 +291,7 @@
     self.widthPerSecond = frameViewFrameWidth / duration;
     
     int preferredWidth = 0;
-    NSMutableArray *times = [[NSMutableArray alloc] init];
+    NSMutableArray *times = [[NSMutableArray alloc] init];// 每隔一秒去一张照片。
     for (int i=1; i<actualFramesNeeded; i++){
         // 实际需要的计算，照片排在上面的frame
         CMTime time = CMTimeMakeWithSeconds(i*durationPerFrame, 600);
@@ -310,12 +314,11 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.frameView addSubview:tmp];
         });
-        
-        
-    }
+    }// 计算出来给滑动照片浏览上面放几个Image的问题。
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        for (int i=1; i<=[times count]; i++) {
+        for (int i=1; i<=[times count]; i++)
+        {
             CMTime time = [((NSValue *)[times objectAtIndex:i-1]) CMTimeValue];
 
             CGImageRef halfWayImage = [self.imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
