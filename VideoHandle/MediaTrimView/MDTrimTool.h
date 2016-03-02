@@ -11,7 +11,6 @@
 @class AVAsset;
 @interface MDTrimTool : NSObject
 @property (nonatomic, copy)NSString *tempVideoPath;
-
 @property (nonatomic, strong)ShowImage *showVideoView;
 
 

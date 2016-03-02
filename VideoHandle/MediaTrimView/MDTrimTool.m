@@ -27,28 +27,29 @@
 {
     self.startTime = startTime;
     self.stopTime = endtime;
+    NSLog(@"stopTime = %f endTime = %f",self.startTime,self.stopTime);
 }
 // block函数式的方法
-- (MDTrimTool *(^)())deleteTempFileBlock
-{
-    MDTrimTool *(^block)() = [^(){
-        NSURL *url = [NSURL fileURLWithPath:self.tempVideoPath];
-        NSFileManager *fm = [NSFileManager defaultManager];
-        BOOL exist = [fm fileExistsAtPath:url.path];
-        NSError *err;
-        if (exist) {
-            [fm removeItemAtURL:url error:&err];
-            NSLog(@"file deleted");
-            if (err) {
-                NSLog(@"file remove error, %@", err.localizedDescription );
-            }
-        } else {
-            NSLog(@"no file by that name");
-        }
-        return self;
-    }copy];
-    return block;
-}
+//- (MDTrimTool *(^)())deleteTempFileBlock
+//{
+//    MDTrimTool *(^block)() = [^(){
+//        NSURL *url = [NSURL fileURLWithPath:self.tempVideoPath];
+//        NSFileManager *fm = [NSFileManager defaultManager];
+//        BOOL exist = [fm fileExistsAtPath:url.path];
+//        NSError *err;
+//        if (exist) {
+//            [fm removeItemAtURL:url error:&err];
+//            NSLog(@"file deleted");
+//            if (err) {
+//                NSLog(@"file remove error, %@", err.localizedDescription );
+//            }
+//        } else {
+//            NSLog(@"no file by that name");
+//        }
+//        return self;
+//    }copy];
+//    return block;
+//}
 
 - (void)deleteTempFile
 {
@@ -69,6 +70,9 @@
 // 这种有参数的该怎么改呢 写在他的返回值的类型的参数中
 - (void)trimVideoWith:(AVAsset *)asset
 {
+    self.showVideoView.delegate = self;
+    self.asset = asset;
+
     // 把之前的剪掉地文件删除掉。
     //    [self deleteTempFile];
     [self deleteTempFile];

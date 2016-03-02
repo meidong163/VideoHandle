@@ -15,7 +15,7 @@
 #define Height self.view.frame.size.height
 #define Width self.view.frame.size.width
 
-@interface MDVideoTrimViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,ICGVideoTrimmerDelegate>
+@interface MDVideoTrimViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,ICGVideoTrimmerDelegate,ShowImageDelegate>
 @property (nonatomic, strong)AVAsset *asset;
 @property (nonatomic, assign)CGFloat startTime;
 @property (nonatomic, assign)CGFloat stopTime;
@@ -43,6 +43,13 @@
     return _trimTool;
 }
 
+//- (void)timerVideoWithStartTime:(CGFloat)startTime endTime:(CGFloat)endtime
+//{
+//    self.startTime = startTime;
+//    self.stopTime = endtime;
+//    NSLog(@"stopTime = %f endTime = %f",self.startTime,self.stopTime);
+//}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 临时存储，截下来的视频；
@@ -63,7 +70,8 @@
 //    [self.view addSubview:trimmerView];
 //    self.trimmerView = trimmerView;
     
-    self.trimTool.showVideoView = [[ShowImage alloc]initWithFrame:CGRectMake(10, 50, Width - 20, 40)];
+    self.trimTool.showVideoView = [[ShowImage alloc]initWithFrame:CGRectMake(10, 220, Width - 20, 40)];
+    self.trimTool.showVideoView.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.trimTool.showVideoView];
 }
 
@@ -102,13 +110,17 @@
     NSLog(@"choose from libriary = %@",info);// 选择本地视频的url,其他的属性。
     NSURL *url = [info valueForKey:UIImagePickerControllerMediaURL];
     self.asset = [AVAsset assetWithURL:url];
+
     // 设置视频选择相关的属性。设置那个控件要干的事情。
-    self.trimmerView.themeColor = [UIColor redColor];
-    self.trimmerView.asset = self.asset;
-    self.trimmerView.showsRulerView = YES;
-    self.trimmerView.delegate = self;
-    //重置视频展示条。
-    [self.trimmerView resetSubviews];
+//    self.trimmerView.themeColor = [UIColor redColor];
+//    self.trimmerView.asset = self.asset;
+//    self.trimmerView.showsRulerView = YES;
+//    self.trimmerView.delegate = self;
+//    //重置视频展示条。
+//    [self.trimmerView resetSubviews];
+    self.trimTool.showVideoView.asset = self.asset;
+    self.trimTool.showVideoView.delegate = self.trimTool;
+    [self.trimTool.showVideoView resetSubviews];
 }
 
 /**

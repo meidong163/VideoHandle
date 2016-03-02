@@ -95,7 +95,7 @@
 - (SliderView *)liftSliderView
 {
     if (_liftSliderView == nil) {
-        _liftSliderView = [[SliderView alloc]initWithFrame:CGRectMake(10, -10, 10, 50)];// 默认，
+        _liftSliderView = [[SliderView alloc]initWithFrame:CGRectMake(10, -10, 10, 60)];// 默认，
         [self addSubview:_liftSliderView];
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panLiftSliderView:)];
         _liftSliderView.userInteractionEnabled = YES;
@@ -137,7 +137,7 @@
 - (SliderView *)rightSliderView
 {
     if (_rightSliderView == nil) {
-        _rightSliderView = [[SliderView alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.frame) - 10, -10, 10, 50)];
+        _rightSliderView = [[SliderView alloc]initWithFrame:CGRectMake(CGRectGetWidth(self.frame) - 10, -10, 10, 60)];
         [self addSubview:_rightSliderView];
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panRightSliderView:)];
         [_rightSliderView addGestureRecognizer:pan];
