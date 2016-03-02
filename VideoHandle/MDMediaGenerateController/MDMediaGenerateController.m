@@ -10,6 +10,7 @@
 #import "AVCaptureView.h"
 #import <AssetsLibrary/AssetsLibrary.h>//资源库，访问本地相册的
 #import <AVFoundation/AVFoundation.h>
+#import "MDCaptureTool.h"
 #define Width self.view.frame.size.width
 #define Height self.view.frame.size.height
 // 有内涵的标记
@@ -17,15 +18,19 @@ static void * CapturingStillImageContext = &CapturingStillImageContext;
 static void * RecordingContext = &RecordingContext;
 static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDeviceAuthorizedContext;
 
-@interface MDMediaGenerateController () <AVCaptureFileOutputRecordingDelegate>
-@property (strong, nonatomic) IBOutlet UIButton *recodingBtn;
-@property (strong, nonatomic) IBOutlet UIButton *stillBtn;
-@property (strong, nonatomic) IBOutlet UIButton *exchangeBtn;
-@property (weak, nonatomic) IBOutlet AVCaptureView *captureView;
+@interface MDMediaGenerateController ()<AVCaptureFileOutputRecordingDelegate>
+
+@property (nonatomic, strong) MDCaptureTool *tool;
+
+@property (strong, nonatomic)  UIButton *recodingBtn;
+@property (strong, nonatomic)  UIButton *stillBtn;
+@property (strong, nonatomic)  UIButton *exchangeBtn;
+
+@property (strong, nonatomic)  AVCaptureView *captureView;
 
 @property (nonatomic, strong)UIButton *btn;
 
-@property (nonatomic)AVCaptureSession *session;
+
 /**
  *  渲染图片的层
  */
@@ -34,7 +39,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
  *  授权状态
  */
 @property (nonatomic, getter=isDeviceAuthorized)BOOL deviceAuthorized;
-@property (nonatomic)dispatch_queue_t sessionQueue;
+
 @property (nonatomic)UIBackgroundTaskIdentifier backgroundTaskID;
 // 输入的数据是调用的那个设备
 @property (nonatomic)AVCaptureDeviceInput *captureDeviceInput;
@@ -66,6 +71,14 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 @implementation MDMediaGenerateController
 
+-(MDCaptureTool *)tool
+{
+    if (_tool == nil) {
+        _tool = [[MDCaptureTool alloc]init];
+    }
+    return _tool;
+}
+
 - (BOOL)isSessionRunningAndDeviceAuthorized
 {
     return [[self session] isRunning] && [self isDeviceAuthorized];
@@ -95,23 +108,36 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.tool.checkDeviceAuthorizationStatus();
+    self.tool.addCaptureViewToControllerAndPerpareSession(self,CGRectMake(0, 20, Width, Height));
+#warning mark - 控制器持有session干什么？
+//    [self nomalViewDidLoad];
+    self.tool.addSomeToyToControllerView(self);
+}
+// 准备设备
+- (void)nomalViewDidLoad
+{
     // 1.创建一个录制回话
     AVCaptureSession *ssession = [[AVCaptureSession alloc]init];
-    self.session = ssession;
+    self.session = ssession;//控制器持有session干什么？
+    
     // 2.指定渲染图层 -回话渲染到图层
     AVCaptureView *captureView = [[AVCaptureView alloc]initWithFrame:CGRectMake(0, 20, Width, Height)];
     //搞定横屏下的问题。
     captureView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:captureView];
+    self.tool.addCaptureViewToControllerAndPerpareSession(self,CGRectMake(0, 20, Width, Height));
     // 初始化按钮
-   self.recodingBtn = [self setButton:@"Record" sel:@selector(didClickRecoding:) frame:CGRectMake(20, Height - 100, 80, 40)];
-   self.stillBtn = [self setButton:@"Still" sel:@selector(didClickStill:) frame:CGRectMake(Width / 2 - 40, Height - 100, 80, 40) ];
-   self.exchangeBtn = [self setButton:@"exchange" sel:@selector(didClickExchangeCamra:) frame:CGRectMake(Width - 100, Height - 100, 80, 40)];
+//    self.recodingBtn = [self setButton:@"Record" sel:@selector(didClickRecoding:) frame:CGRectMake(20, Height - 100, 80, 40)];
+//    self.stillBtn = [self setButton:@"Still" sel:@selector(didClickStill:) frame:CGRectMake(Width / 2 - 40, Height - 100, 80, 40) ];
+//    self.exchangeBtn = [self setButton:@"exchange" sel:@selector(didClickExchangeCamra:) frame:CGRectMake(Width - 100, Height - 100, 80, 40)];
     
-    self.captureView = captureView;
+    self.captureView = captureView;// captureView一直会被持有知道控制器被释放。
     [self.captureView setSession:ssession];
     // 3.查看授权状态
     [self checkDeviceAuthorizationStatus];
+    //    self.tool.checkDeviceAuthorizationStatus();
     // 4.创建同步队列，实时处理图像。
     dispatch_queue_t sessionQueue = dispatch_queue_create("session Queue", DISPATCH_QUEUE_SERIAL);
     [self setSessionQueue:sessionQueue];
@@ -119,7 +145,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         [self setBackgroundTaskID:UIBackgroundTaskInvalid];
         NSError *error = nil;
         // 获取到后置摄像头
-
+        
         AVCaptureDevice *captureDevice = [MDMediaGenerateController deviceWithMediaType:AVMediaTypeVideo preferringPosition:AVCaptureDevicePositionBack];
         // 指定输入设备
         AVCaptureDeviceInput *captureDiviceInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
@@ -151,7 +177,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
             AVCaptureConnection *connection = [movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
             if ([connection isVideoStabilizationSupported]) {
                 [connection setPreferredVideoStabilizationMode:AVCaptureVideoStabilizationModeStandard];
-                [self setVideoOutput:movieFileOutput];
+                self.videoOutput = movieFileOutput;
             }
         }
         
@@ -163,34 +189,38 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
             self.imageOutput = imageOutput;
         }
     });
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    dispatch_async([self sessionQueue], ^{
+    self.tool.viewdidAppearAddOberver();
+//    [self nomalViewWillAppear];
+}
+
+- (void)nomalViewWillAppear
+{
+    [self addObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionOld context:SessionRunningAndDeviceAuthorizedContext];
+    // 图片的属性
+    [self addObserver:self forKeyPath:@"imageOutput.capturingStillImage" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:CapturingStillImageContext];
+    // 视频的属性
+    [self addObserver:self forKeyPath:@"videoOutput.recording" options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionOld context:RecordingContext];
+    dispatch_async(self.sessionQueue, ^{
         // 监听会话是否运行 设备是否授权。
-        [self addObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized" options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionOld context:SessionRunningAndDeviceAuthorizedContext];
-        // 图片的属性
-        [self addObserver:self forKeyPath:@"imageOutput.capturingStillImage" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:CapturingStillImageContext];
-        // 视频的属性
-        [self addObserver:self forKeyPath:@"videoOutput.recording" options:NSKeyValueObservingOptionNew |NSKeyValueObservingOptionOld context:RecordingContext];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:[self.captureDeviceInput device]];
-        __weak MDMediaGenerateController *weakself = self;
-        //这个东西是干什么用的？注释运行 猜* ：监听拍摄过程中的错误。并发送通知
-        // 监听线程的一个通知，如果线程出现错误，收到通知后执行block
-        
-        [self setRuntimeErrorHandlingObserver:[[NSNotificationCenter defaultCenter] addObserverForName:AVCaptureSessionRuntimeErrorNotification object:[self session] queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-            MDMediaGenerateController *strongSelf = weakself;
-            dispatch_async([strongSelf sessionQueue], ^{
-                [[strongSelf session]startRunning];
-//                [[strongSelf recodingBtn]setTitle:NSLocalizedString(@"录制", @"Record Button record title") forState:UIControlStateNormal];
-            });
-        }]];
+       
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:[self.captureDeviceInput device]];
+//        __weak MDMediaGenerateController *weakself = self;
+//        //这个东西是干什么用的？注释运行 猜* ：监听拍摄过程中的错误。并发送通知
+//        // 监听线程的一个通知，如果线程出现错误，收到通知后执行block
+//        
+//        [self setRuntimeErrorHandlingObserver:[[NSNotificationCenter defaultCenter] addObserverForName:AVCaptureSessionRuntimeErrorNotification object:[self session] queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+//            MDMediaGenerateController *strongSelf = weakself;
+//            dispatch_async([strongSelf sessionQueue], ^{
+//                [[strongSelf session]startRunning];
+//            });
+//        }]];
         //运行会话
         [[self session] startRunning];
     });
-    
 }
 
 - (BOOL)shouldAutorotate
@@ -205,32 +235,32 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 // 输出信号（view方向随着画面动）
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [[(AVCaptureVideoPreviewLayer *)[[self captureView] layer] connection] setVideoOrientation:(AVCaptureVideoOrientation)toInterfaceOrientation];
+    [[(AVCaptureVideoPreviewLayer *)[self.tool.captureView layer] connection] setVideoOrientation:(AVCaptureVideoOrientation)toInterfaceOrientation];
 }
 /**
  *  集成到项目中的
  */
 -(void)viewWillDisappear:(BOOL)animated
 {
-    dispatch_async([self sessionQueue], ^{
-        [[self session]stopRunning];
-        [self removeObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized"context:SessionRunningAndDeviceAuthorizedContext];
-        [self removeObserver:self forKeyPath:@"videoOutput.recording"context:RecordingContext];
-        [self removeObserver:self forKeyPath:@"imageOutput.capturingStillImage" context:CapturingStillImageContext];
-        [[NSNotificationCenter defaultCenter]removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:[self.captureDeviceInput device]];
-        [[NSNotificationCenter defaultCenter]removeObserver:self.runtimeErrorHandlingObserver];//这样添加通知也是一种好方式
-    });
-    
+//    dispatch_async([self sessionQueue], ^{
+//        [[self session]stopRunning];
+//        [self removeObserver:self forKeyPath:@"sessionRunningAndDeviceAuthorized"context:SessionRunningAndDeviceAuthorizedContext];
+//        [self removeObserver:self forKeyPath:@"videoOutput.recording"context:RecordingContext];
+//        [self removeObserver:self forKeyPath:@"imageOutput.capturingStillImage" context:CapturingStillImageContext];
+//        [[NSNotificationCenter defaultCenter]removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:[self.captureDeviceInput device]];
+//        [[NSNotificationCenter defaultCenter]removeObserver:self.runtimeErrorHandlingObserver];//这样添加通知也是一种好方式
+//    });
+    self.tool.viewdidDisappearRemoveObserver();
 }
 
 /**
  *  猜：摄像头移动－－调教的
  */
-- (void)subjectAreaDidChange:(NSNotification *)notification
-{
-    CGPoint devicePoint = CGPointMake(.5, .5);
-    [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:devicePoint monitorSubjectAreaChange:NO];
-}
+//- (void)subjectAreaDidChange:(NSNotification *)notification
+//{
+//    CGPoint devicePoint = CGPointMake(.5, .5);
+//    [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:devicePoint monitorSubjectAreaChange:NO];
+//}
 
 // 配置一下设备相关的属性。－对焦的模式,亮度，获取人的头像，这可能需要算法做。 这里边的一些东西并没有动。－－ 不知何时调用？
 - (void)focusWithMode:(AVCaptureFocusMode)focusMode exposeWithMode:(AVCaptureExposureMode)exposureMode atDevicePoint:(CGPoint)point monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange
@@ -281,7 +311,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     
 }
 #pragma mark - delegate use to
-// 根据监听的情况做事情 － 修改，button 的title，以及设置一些button能不能点。
+//// 根据监听的情况做事情 － 修改，button 的title，以及设置一些button能不能点。
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
     if (context == CapturingStillImageContext) {
@@ -332,7 +362,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
-
+//
 // 前置摄像头还是后置摄像头
 + (AVCaptureDevice *)deviceWithMediaType:(NSString *)mediaType preferringPosition:(AVCaptureDevicePosition)position
 {
@@ -351,95 +381,95 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     return captureDevice;
 }
 #pragma mark - Userintactive
-- (IBAction)didClickRecoding:(id)sender {
-
-    [[self recodingBtn]setEnabled:NO];
-    dispatch_async([self sessionQueue], ^{
-        if (![[self videoOutput]isRecording]) {//开始录制
-            //不让屏幕旋转。
-            [self setLockInterfaceRotation:YES];
-            // 启动后台线程
-            if ([[UIDevice currentDevice] isMultitaskingSupported]) {
-                [self setBackgroundTaskID:[[UIApplication sharedApplication]beginBackgroundTaskWithExpirationHandler:nil]];
-            }
-            // 输出的文件和要现实的图层connection起来
-            [[[self videoOutput] connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)[self.captureView layer] connection] videoOrientation]];
-            // 关闭缓存
-            NSString *outPutFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[@"movieIlove"stringByAppendingPathExtension:@"mov"]];
-            //开始录制了并执行代理
-            [self.videoOutput startRecordingToOutputFileURL:[NSURL fileURLWithPath:outPutFilePath] recordingDelegate:self];
-        }else//停止录制
-        {
-            [self.videoOutput stopRecording];
-        }
-    });
-}
-- (IBAction)didClickStill:(id)sender {
-    dispatch_async([self sessionQueue], ^{
-        // 设置一下拍摄的方向
-        [[[self imageOutput]connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)[[self captureView]layer] connection] videoOrientation]];
-        // 自动闪光灯
-        [MDMediaGenerateController setFlashMode:AVCaptureFlashModeAuto device:[self.captureDeviceInput device]];
-        // Capture a still image
-        [[self imageOutput]captureStillImageAsynchronouslyFromConnection:[[self imageOutput]connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-            if (imageDataSampleBuffer) {
-                NSData *imagedata = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                UIImage *image = [[UIImage alloc]initWithData:imagedata];
-                //写到相册
-                [[[ALAssetsLibrary alloc]init]writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
-            }
-        }];
-    });
-}
-// 翻转摄像头
-- (IBAction)didClickExchangeCamra:(id)sender {
-    NSLog(@"摄像头翻转");
-    self.recodingBtn.enabled = NO;
-    self.exchangeBtn.enabled=NO;
-    self.stillBtn.enabled = NO;
-    
-    dispatch_async([self sessionQueue], ^{
-        AVCaptureDevice *currentVideoDevice = [[self captureDeviceInput]device];
-        AVCaptureDevicePosition preferredPosition = AVCaptureDevicePositionUnspecified;
-        AVCaptureDevicePosition currentPosition = [currentVideoDevice position];
-        switch (currentPosition) {
-            case AVCaptureDevicePositionUnspecified:
-                preferredPosition = AVCaptureDevicePositionBack;
-                break;
-            case AVCaptureDevicePositionFront:
-                preferredPosition = AVCaptureDevicePositionBack;
-                break;
-            case AVCaptureDevicePositionBack:
-                preferredPosition = AVCaptureDevicePositionFront;
-                break;
-            default:
-                break;
-        }
-        AVCaptureDevice *videoDevice = [MDMediaGenerateController deviceWithMediaType:AVMediaTypeVideo preferringPosition:preferredPosition];
-        AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:nil];
-        [[self session] beginConfiguration];
-        
-        [[self session]removeInput:[self captureDeviceInput]];
-        if ([[self session] canAddInput:videoDeviceInput]) {
-            //移除对当前，摄像范围的通知
-            [[NSNotificationCenter defaultCenter]removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:currentVideoDevice];
-            //闪光灯模式
-            [MDMediaGenerateController setFlashMode:AVCaptureFlashModeAuto device:videoDevice];
-            [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:videoDevice];
-            [self.session addInput:videoDeviceInput];
-            self.captureDeviceInput = videoDeviceInput;
-        }else{
-            [[self session]addInput:[self captureDeviceInput]];
-        }
-        [[self session]commitConfiguration];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.exchangeBtn.enabled = YES;
-            self.recodingBtn.enabled = YES;
-            self.stillBtn.enabled = YES;
-        });
-    });
-    
-}
+//- (IBAction)didClickRecoding:(id)sender {
+//
+//    [[self recodingBtn]setEnabled:NO];
+//    dispatch_async([self sessionQueue], ^{
+//        if (![[self videoOutput]isRecording]) {//开始录制
+//            //不让屏幕旋转。
+//            [self setLockInterfaceRotation:YES];
+//            // 启动后台线程
+//            if ([[UIDevice currentDevice] isMultitaskingSupported]) {
+//                [self setBackgroundTaskID:[[UIApplication sharedApplication]beginBackgroundTaskWithExpirationHandler:nil]];
+//            }
+//            // 输出的文件和要现实的图层connection起来
+//            [[[self videoOutput] connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)[self.captureView layer] connection] videoOrientation]];
+//            // 关闭缓存
+//            NSString *outPutFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[@"movieIlove"stringByAppendingPathExtension:@"mov"]];
+//            //开始录制了并执行代理
+//            [self.videoOutput startRecordingToOutputFileURL:[NSURL fileURLWithPath:outPutFilePath] recordingDelegate:self];
+//        }else//停止录制
+//        {
+//            [self.videoOutput stopRecording];
+//        }
+//    });
+//}
+//- (IBAction)didClickStill:(id)sender {
+//    dispatch_async([self sessionQueue], ^{
+//        // 设置一下拍摄的方向
+//        [[[self imageOutput]connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[[(AVCaptureVideoPreviewLayer *)[[self captureView]layer] connection] videoOrientation]];
+//        // 自动闪光灯
+//        [MDMediaGenerateController setFlashMode:AVCaptureFlashModeAuto device:[self.captureDeviceInput device]];
+//        // Capture a still image
+//        [[self imageOutput]captureStillImageAsynchronouslyFromConnection:[[self imageOutput]connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+//            if (imageDataSampleBuffer) {
+//                NSData *imagedata = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+//                UIImage *image = [[UIImage alloc]initWithData:imagedata];
+//                //写到相册
+//                [[[ALAssetsLibrary alloc]init]writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
+//            }
+//        }];
+//    });
+//}
+//// 翻转摄像头
+//- (IBAction)didClickExchangeCamra:(id)sender {
+//    NSLog(@"摄像头翻转");
+//    self.recodingBtn.enabled = NO;
+//    self.exchangeBtn.enabled=NO;
+//    self.stillBtn.enabled = NO;
+//    
+//    dispatch_async([self sessionQueue], ^{
+//        AVCaptureDevice *currentVideoDevice = [[self captureDeviceInput]device];
+//        AVCaptureDevicePosition preferredPosition = AVCaptureDevicePositionUnspecified;
+//        AVCaptureDevicePosition currentPosition = [currentVideoDevice position];
+//        switch (currentPosition) {
+//            case AVCaptureDevicePositionUnspecified:
+//                preferredPosition = AVCaptureDevicePositionBack;
+//                break;
+//            case AVCaptureDevicePositionFront:
+//                preferredPosition = AVCaptureDevicePositionBack;
+//                break;
+//            case AVCaptureDevicePositionBack:
+//                preferredPosition = AVCaptureDevicePositionFront;
+//                break;
+//            default:
+//                break;
+//        }
+//        AVCaptureDevice *videoDevice = [MDMediaGenerateController deviceWithMediaType:AVMediaTypeVideo preferringPosition:preferredPosition];
+//        AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:nil];
+//        [[self session] beginConfiguration];
+//        
+//        [[self session]removeInput:[self captureDeviceInput]];
+//        if ([[self session] canAddInput:videoDeviceInput]) {
+//            //移除对当前，摄像范围的通知
+//            [[NSNotificationCenter defaultCenter]removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:currentVideoDevice];
+//            //闪光灯模式
+//            [MDMediaGenerateController setFlashMode:AVCaptureFlashModeAuto device:videoDevice];
+//            [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:videoDevice];
+//            [self.session addInput:videoDeviceInput];
+//            self.captureDeviceInput = videoDeviceInput;
+//        }else{
+//            [[self session]addInput:[self captureDeviceInput]];
+//        }
+//        [[self session]commitConfiguration];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.exchangeBtn.enabled = YES;
+//            self.recodingBtn.enabled = YES;
+//            self.stillBtn.enabled = YES;
+//        });
+//    });
+//    
+//}
 
 
 
@@ -480,19 +510,19 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     });
 }
 
-+ (void)setFlashMode:(AVCaptureFlashMode)flashMode device:(AVCaptureDevice*)device
-{
-    if ([device hasFlash]&&[device isFlashModeSupported:flashMode]) {
-        NSError *error = nil;
-        // 检查是否锁定配置
-        if ([device lockForConfiguration:&error]) {
-            [device setFlashMode:flashMode];
-            [device unlockForConfiguration];
-        }else
-        {
-            NSLog(@"%@",error);
-        }
-    }
-}
+//+ (void)setFlashMode:(AVCaptureFlashMode)flashMode device:(AVCaptureDevice*)device
+//{
+//    if ([device hasFlash]&&[device isFlashModeSupported:flashMode]) {
+//        NSError *error = nil;
+//        // 检查是否锁定配置
+//        if ([device lockForConfiguration:&error]) {
+//            [device setFlashMode:flashMode];
+//            [device unlockForConfiguration];
+//        }else
+//        {
+//            NSLog(@"%@",error);
+//        }
+//    }
+//}
 
 @end

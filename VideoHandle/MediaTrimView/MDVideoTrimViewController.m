@@ -81,7 +81,6 @@
     self.asset = [AVAsset assetWithURL:url];
     self.trimTool.showVideoView.asset = self.asset;
     self.trimTool.showVideoView.delegate = self.trimTool;
-//    [self.trimTool.showVideoView resetSubviews];
     self.trimTool.showVideoView.resetSubViews();
 }
 

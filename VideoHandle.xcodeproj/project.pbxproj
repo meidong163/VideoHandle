@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56B3F8931C86B12D0005FC44 /* MDCaptureTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B3F8921C86B12D0005FC44 /* MDCaptureTool.m */; };
+		56B3F8991C86D1590005FC44 /* MDMediaGenerateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B3F8981C86D1590005FC44 /* MDMediaGenerateController.m */; };
 		56C9B9991C8588E100C3EACF /* MDTrimTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C9B9981C8588E100C3EACF /* MDTrimTool.m */; };
 		56C9B99F1C858AA600C3EACF /* ShowImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C9B99C1C858AA600C3EACF /* ShowImage.m */; };
 		56C9B9A01C858AA600C3EACF /* SliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C9B99E1C858AA600C3EACF /* SliderView.m */; };
@@ -17,7 +19,6 @@
 		56CACAFE1C7D82D30091C72B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56CACAFD1C7D82D30091C72B /* Assets.xcassets */; };
 		56CACB011C7D82D30091C72B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56CACAFF1C7D82D30091C72B /* LaunchScreen.storyboard */; };
 		56CACB0D1C7D86EA0091C72B /* AVCaptureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB0A1C7D86EA0091C72B /* AVCaptureView.m */; };
-		56CACB0E1C7D86EA0091C72B /* MDMediaGenerateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB0C1C7D86EA0091C72B /* MDMediaGenerateController.m */; };
 		56CACB231C7D8B140091C72B /* MDVideoTrimViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB221C7D8B140091C72B /* MDVideoTrimViewController.m */; };
 		56CACB2A1C7D8D040091C72B /* MDVideoCompositionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 56CACB291C7D8D040091C72B /* MDVideoCompositionVC.m */; };
 		56CACB2C1C7DA1850091C72B /* 单身情歌.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 56CACB2B1C7DA1850091C72B /* 单身情歌.mp3 */; };
@@ -25,6 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		56B3F8911C86B12D0005FC44 /* MDCaptureTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDCaptureTool.h; sourceTree = "<group>"; };
+		56B3F8921C86B12D0005FC44 /* MDCaptureTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDCaptureTool.m; sourceTree = "<group>"; };
+		56B3F8971C86D1590005FC44 /* MDMediaGenerateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDMediaGenerateController.h; sourceTree = "<group>"; };
+		56B3F8981C86D1590005FC44 /* MDMediaGenerateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDMediaGenerateController.m; sourceTree = "<group>"; };
 		56C9B9971C8588E100C3EACF /* MDTrimTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDTrimTool.h; sourceTree = "<group>"; };
 		56C9B9981C8588E100C3EACF /* MDTrimTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDTrimTool.m; sourceTree = "<group>"; };
 		56C9B99B1C858AA600C3EACF /* ShowImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowImage.h; sourceTree = "<group>"; };
@@ -43,8 +48,6 @@
 		56CACB021C7D82D30091C72B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56CACB091C7D86EA0091C72B /* AVCaptureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCaptureView.h; sourceTree = "<group>"; };
 		56CACB0A1C7D86EA0091C72B /* AVCaptureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCaptureView.m; sourceTree = "<group>"; };
-		56CACB0B1C7D86EA0091C72B /* MDMediaGenerateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDMediaGenerateController.h; sourceTree = "<group>"; };
-		56CACB0C1C7D86EA0091C72B /* MDMediaGenerateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDMediaGenerateController.m; sourceTree = "<group>"; };
 		56CACB211C7D8B140091C72B /* MDVideoTrimViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDVideoTrimViewController.h; sourceTree = "<group>"; };
 		56CACB221C7D8B140091C72B /* MDVideoTrimViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDVideoTrimViewController.m; sourceTree = "<group>"; };
 		56CACB281C7D8D040091C72B /* MDVideoCompositionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDVideoCompositionVC.h; sourceTree = "<group>"; };
@@ -123,9 +126,11 @@
 			isa = PBXGroup;
 			children = (
 				56CACB091C7D86EA0091C72B /* AVCaptureView.h */,
+				56B3F8971C86D1590005FC44 /* MDMediaGenerateController.h */,
+				56B3F8981C86D1590005FC44 /* MDMediaGenerateController.m */,
 				56CACB0A1C7D86EA0091C72B /* AVCaptureView.m */,
-				56CACB0B1C7D86EA0091C72B /* MDMediaGenerateController.h */,
-				56CACB0C1C7D86EA0091C72B /* MDMediaGenerateController.m */,
+				56B3F8911C86B12D0005FC44 /* MDCaptureTool.h */,
+				56B3F8921C86B12D0005FC44 /* MDCaptureTool.m */,
 			);
 			path = MDMediaGenerateController;
 			sourceTree = "<group>";
@@ -226,8 +231,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56CACB0E1C7D86EA0091C72B /* MDMediaGenerateController.m in Sources */,
+				56B3F8931C86B12D0005FC44 /* MDCaptureTool.m in Sources */,
 				56CACB0D1C7D86EA0091C72B /* AVCaptureView.m in Sources */,
+				56B3F8991C86D1590005FC44 /* MDMediaGenerateController.m in Sources */,
 				56C9B9A01C858AA600C3EACF /* SliderView.m in Sources */,
 				56CACAF91C7D82D30091C72B /* MainViewController.m in Sources */,
 				56CACB2A1C7D8D040091C72B /* MDVideoCompositionVC.m in Sources */,

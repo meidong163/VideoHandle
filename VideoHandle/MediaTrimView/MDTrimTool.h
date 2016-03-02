@@ -14,11 +14,6 @@
 
 @property (nonatomic, strong)ShowImage *showVideoView;
 
-
-- (void)trimVideoWith:(AVAsset *)asset;//像这些有参数的方法应该怎么样去处理呢？如果用block的函数式写代码的话。
-
-//- (void)deleteTempFile;
-
 - (MDTrimTool *(^)())deleteTempFileBlock;
 
 - (MDTrimTool *(^)(AVAsset *))trimVideoBlock;

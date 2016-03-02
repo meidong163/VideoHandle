@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class AVCaptureSession;
 @interface MDMediaGenerateController : UIViewController
-
-
+@property (nonatomic, strong)AVCaptureSession *session;
+@property (nonatomic)dispatch_queue_t sessionQueue;
 @end
 
