@@ -34,56 +34,109 @@
     return _imageViews;
 }
 
-// remove last generate images
-- (void)resetSubviews
+-(ShowImage *(^)())resetSubViews
 {
-    if (self.minLengh == 0) {
-        self.minLengh = 15;
-    }
-    
-    self.imgeGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:self.asset];
-    self.imgeGenerator.appliesPreferredTrackTransform = YES;
-    // 去掉所有的子视图
-    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    self.contentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
-    CGFloat durition = CMTimeGetSeconds(self.asset.duration);
-    [self.contentView.layer setMasksToBounds:YES];// 啥意思？
-    [self addSubview:self.contentView];
-    [self addSubview:self.liftSliderView];
-    [self addSubview:self.rightSliderView];
-    
-    //视频的时间转换成秒，然后可以通过准确的秒来去照片。
-    CGFloat probblytime = durition / 20;
-    self.probblytime = probblytime;
-    CGFloat  widthPerImage = self.contentView.frame.size.width / 20;
-    for (int i = 0 ; i <= 20; i++) { // 展示20张时的情况。
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(i * widthPerImage, 0, widthPerImage, CGRectGetHeight(self.frame))];
-        imageView.tag = i;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.contentView addSubview:imageView];
-            [self.imageViews addObject:imageView];
-        });
-    }
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        for (int i = 0 ; i <= 20; i++)
-        {
-            CMTime time = [((NSValue *)@(i * probblytime)) CMTimeValue];
-            CGImageRef theTimeImage = [self.imgeGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
-            UIImage *videoImage;
-            if ([self isRetina]) {
-                videoImage = [UIImage imageWithCGImage:theTimeImage scale:2.0 orientation:UIImageOrientationUp];
-            }else
-            {
-                videoImage = [UIImage imageWithCGImage:theTimeImage];
-            }
-            CGImageRelease(theTimeImage);
+    ShowImage *(^block)() = [^{
+        if (self.minLengh == 0) {
+            self.minLengh = 15;
+        }
+        self.imgeGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:self.asset];
+        self.imgeGenerator.appliesPreferredTrackTransform = YES;
+        // 去掉所有的子视图
+        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        self.contentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
+        CGFloat durition = CMTimeGetSeconds(self.asset.duration);
+        [self.contentView.layer setMasksToBounds:YES];// 啥意思？
+        [self addSubview:self.contentView];
+        [self addSubview:self.liftSliderView];
+        [self addSubview:self.rightSliderView];
+        
+        //视频的时间转换成秒，然后可以通过准确的秒来去照片。
+        CGFloat probblytime = durition / 20;
+        self.probblytime = probblytime;
+        CGFloat  widthPerImage = self.contentView.frame.size.width / 20;
+        for (int i = 0 ; i <= 20; i++) { // 展示20张时的情况。
+            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(i * widthPerImage, 0, widthPerImage, CGRectGetHeight(self.frame))];
+            imageView.tag = i;
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIImageView *imageView = (UIImageView *)[self.imageViews[i] viewWithTag:i];
-                [imageView setImage:videoImage];
+                [self.contentView addSubview:imageView];
+                [self.imageViews addObject:imageView];
             });
         }
-    });
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            for (int i = 0 ; i <= 20; i++)
+            {
+                CMTime time = [((NSValue *)@(i * probblytime)) CMTimeValue];
+                CGImageRef theTimeImage = [self.imgeGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
+                UIImage *videoImage;
+                if ([self isRetina]) {
+                    videoImage = [UIImage imageWithCGImage:theTimeImage scale:2.0 orientation:UIImageOrientationUp];
+                }else
+                {
+                    videoImage = [UIImage imageWithCGImage:theTimeImage];
+                }
+                CGImageRelease(theTimeImage);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIImageView *imageView = (UIImageView *)[self.imageViews[i] viewWithTag:i];
+                    [imageView setImage:videoImage];
+                });
+            }
+        });
+        return self;
+    }copy];
+    return block;
 }
+
+// remove last generate images
+//- (void)resetSubviews
+//{
+//    if (self.minLengh == 0) {
+//        self.minLengh = 15;
+//    }
+//    
+//    self.imgeGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:self.asset];
+//    self.imgeGenerator.appliesPreferredTrackTransform = YES;
+//    // 去掉所有的子视图
+//    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+//    self.contentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
+//    CGFloat durition = CMTimeGetSeconds(self.asset.duration);
+//    [self.contentView.layer setMasksToBounds:YES];// 啥意思？
+//    [self addSubview:self.contentView];
+//    [self addSubview:self.liftSliderView];
+//    [self addSubview:self.rightSliderView];
+//    
+//    //视频的时间转换成秒，然后可以通过准确的秒来去照片。
+//    CGFloat probblytime = durition / 20;
+//    self.probblytime = probblytime;
+//    CGFloat  widthPerImage = self.contentView.frame.size.width / 20;
+//    for (int i = 0 ; i <= 20; i++) { // 展示20张时的情况。
+//        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(i * widthPerImage, 0, widthPerImage, CGRectGetHeight(self.frame))];
+//        imageView.tag = i;
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.contentView addSubview:imageView];
+//            [self.imageViews addObject:imageView];
+//        });
+//    }
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        for (int i = 0 ; i <= 20; i++)
+//        {
+//            CMTime time = [((NSValue *)@(i * probblytime)) CMTimeValue];
+//            CGImageRef theTimeImage = [self.imgeGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
+//            UIImage *videoImage;
+//            if ([self isRetina]) {
+//                videoImage = [UIImage imageWithCGImage:theTimeImage scale:2.0 orientation:UIImageOrientationUp];
+//            }else
+//            {
+//                videoImage = [UIImage imageWithCGImage:theTimeImage];
+//            }
+//            CGImageRelease(theTimeImage);
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                UIImageView *imageView = (UIImageView *)[self.imageViews[i] viewWithTag:i];
+//                [imageView setImage:videoImage];
+//            });
+//        }
+//    });
+//}
 
 - (void)notifyDelegate
 {

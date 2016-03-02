@@ -19,5 +19,7 @@
 @property (nonatomic, assign) CGFloat minLengh;
 @property  (nonatomic , weak) id<ShowImageDelegate> delegate;
 
-- (void)resetSubviews;
+//- (void)resetSubviews;
+
+- (ShowImage* (^)())resetSubViews;
 @end

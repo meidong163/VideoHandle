@@ -8,7 +8,6 @@
 
 #import "MDVideoTrimViewController.h"
 #import <AVFoundation/AVFoundation.h>
-#import "ICGVideoTrimmer.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "MDTrimTool.h"
 
@@ -25,7 +24,6 @@
 @end
 
 @implementation MDVideoTrimViewController
-#pragma mark - compositionVideo
 
 -(MDTrimTool *)trimTool
 {
@@ -83,12 +81,12 @@
     self.asset = [AVAsset assetWithURL:url];
     self.trimTool.showVideoView.asset = self.asset;
     self.trimTool.showVideoView.delegate = self.trimTool;
-    [self.trimTool.showVideoView resetSubviews];
+//    [self.trimTool.showVideoView resetSubviews];
+    self.trimTool.showVideoView.resetSubViews();
 }
 
 - (void)trimVideo
 {
-//    [self.trimTool trimVideoWith:self.asset];
     self.trimTool.trimVideoBlock(self.asset);
 }
 
