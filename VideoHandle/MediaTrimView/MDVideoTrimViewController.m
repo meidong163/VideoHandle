@@ -88,7 +88,9 @@
 
 - (void)trimVideo
 {
-    [self.trimTool trimVideoWith:self.asset];
+//    [self.trimTool trimVideoWith:self.asset];
+    self.trimTool.trimVideoBlock(self.asset);
 }
+
 
 @end
