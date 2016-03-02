@@ -58,7 +58,8 @@ static void * CapturingStillImageContext = &CapturingStillImageContext;
 static void * RecordingContext = &RecordingContext;
 static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDeviceAuthorizedContext;
 @implementation MDCaptureTool
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (MDCaptureTool *(^)())viewdidAppearAddOberver
 {
     MDCaptureTool *(^block)() = [^(){
@@ -417,8 +418,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         }];
     });
 }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 #pragma mark - File Output Delegate － 注册代理的时机，写在哪里好呢？
 
 // 前置摄像头还是后置摄像头
@@ -476,4 +476,5 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 {
     NSLog(@"tool_%@",NSStringFromSelector(_cmd));
 }
+#pragma clang diagnostic pop
 @end
