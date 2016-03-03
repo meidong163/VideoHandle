@@ -40,6 +40,7 @@
     }else if(indexPath.row == 1)
     {
         MDVideoTrimViewController *videoTrimVC = [[MDVideoTrimViewController alloc]init];
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
         [self.navigationController pushViewController:videoTrimVC animated:YES];
     }else
     {

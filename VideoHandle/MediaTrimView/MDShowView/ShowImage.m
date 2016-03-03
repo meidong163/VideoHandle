@@ -40,6 +40,9 @@
         if (self.minLengh == 0) {
             self.minLengh = 15;
         }
+        if (self.imageViews != nil) {
+            self.imageViews = nil;
+        }
         self.imgeGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:self.asset];
         self.imgeGenerator.appliesPreferredTrackTransform = YES;
         // 去掉所有的子视图
